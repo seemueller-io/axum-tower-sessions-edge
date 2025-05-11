@@ -1,0 +1,12 @@
+{
+  "scripts": {
+    "dev": "bun operate:env:local dev",
+    "dev:example-service": "(cd ../_sample_workers/example-service && bunx wrangler dev)",
+    "deploy:dev": "wrangler deploy",
+    "deploy:dev:secrets": "wrangler versions secret bulk secrets.json && bun run deploy:dev",
+    "tail:dev": "wrangler tail"
+  },
+  "dependencies": {
+    "wrangler": "latest"
+  }
+}

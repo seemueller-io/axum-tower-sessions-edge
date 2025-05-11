@@ -1,0 +1,76 @@
+[package]
+name = "zitadel-session-worker"
+version = "0.1.0"
+edition = "2021"
+authors = [ "Geoff Seemueller <28698553+geoffsee@users.noreply.github.com>" ]
+
+[package.metadata.release]
+release = false
+
+# https://github.com/rustwasm/wasm-pack/issues/1247
+[package.metadata.wasm-pack.profile.release]
+wasm-opt = false
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+worker = { version="0.5.0", features=['http', 'axum', 'd1', 'timezone'] }
+worker-macros = { version="0.5.0", features=['http'] }
+axum  = { version = "0.7.9", default-features = false, features = ["macros", "json", "query", "original-uri", "tracing", "http1", "matched-path"] }
+tower-service = "0.3.2"
+console_error_panic_hook = { version = "0.1.1" }
+reqwest = { version = "0.11.27", features = ["json", "rustls-tls"], default-features = false }
+thiserror = "1.0.69"
+openidconnect = { version = "3.5.0", features = ["reqwest"]}
+serde_urlencoded = {version = "0.7.1"}
+url = "2.5.4"
+oauth2 = { version = "=5.0.0", optional = false, default-features = false, features = ["reqwest"] }
+custom_error = {version = "1.9.2"}
+serde_json = { version = "1.0.116" }
+# this is set to version 1.0.200 in zitadel rust library
+serde = { version = "1.0.217", features = ["derive"] }
+jsonwebtoken = { version = "9.3.0"}
+axum-extra = { version = "0.10.0", features = ["typed-header", "cookie"] }
+base64 = "0.22.1"
+js-sys = "0.3"
+time = { version = "0.3" , default-features = false, features = ["wasm-bindgen", "serde"], optional = false}
+async-trait = { version = "0.1.80"}
+tokio = { version = "1.43.0", default-features = false, features = ["macros","rt"] }
+wasm-bindgen-futures = "0.4.50"
+serde-wasm-bindgen = "0.5"
+openid = "0.16.1"
+anyhow = "1.0.95"
+tower-sessions = { version = "=0.13", default-features = false, features = ["memory-store", "signed", "private", "axum-core"] }
+tower = { version = "0.5.2", features = ["tokio", "tracing"] }
+tower-http = { git = "https://github.com/tower-rs/tower-http", default-features = false, features = ["cors", "set-header", "sensitive-headers", "trace", "propagate-header", "follow-redirect", "request-id"] }
+chrono = { version = "0.4.40", features = ["wasmbind"] }
+tower-sessions-core = { version = "0.13"}
+worker-kv = "0.8.0"
+tracing = { version = "0.1" }
+tracing-subscriber = { version = "0.3", default-features = false, features = ['json', 'time'] }
+tracing-web = "0.1"
+axum-core = { version = "0.4.5", features = ["tracing"] }
+http = "1.3.1"
+bytes = "1.9.0"
+mini-moka = "0.10.3"
+tower-cookies = "0.10.0"
+uuid = {version = "1.12.1", features = ["v4"]}
+
+[target.'cfg(not(target_arch = "wasm32"))'.dependencies]
+ring = { version = "0.17.4", features = ["std"] }
+
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+js-sys = "0.3"
+ring = { version = "0.17.4", features = ["std", "wasm32_unknown_unknown_js"] }
+
+
+[dev-dependencies]
+chrono = "0.4.38"
+tower = { version = "0.5.2" }
+tokio = { version = "1.37.0", features = ["macros", "rt-multi-thread"] }
+http-body-util = {version = "0.1.2"}
+
+
+[profile.release]
+allow-unsafe = true

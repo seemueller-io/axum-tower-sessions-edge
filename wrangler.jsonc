@@ -1,0 +1,27 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "compatibility_date": "2025-01-31",
+  "main": "build/worker/shim.mjs",
+  "name": "zitadel-session-worker",
+  "workers_dev": true,
+  "build": {
+    "command": "cargo install -q worker-build && worker-build --release"
+  },
+  "services": [
+    {
+      "binding": "PROXY_TARGET",
+      "service": "example-service"
+    }
+  ],
+  "kv_namespaces": [
+    {
+      "binding": "KV_STORAGE",
+      "id": "your-id",
+      "preview_id": "your-preview-id"
+    }
+  ],
+  "dev": {
+    "port": 3000,
+    "ip": "localhost"
+  }
+}
