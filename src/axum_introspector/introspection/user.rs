@@ -308,67 +308,106 @@ mod tests {
     async fn can_guard() {
         let app = app().await;
 
+        // Create a mock request with a session containing a token
+        let mut test_request = Request::builder()
+            .uri("/authed")
+            .header("Cookie", "session=test-session-id")
+            .body(Body::empty())
+            .unwrap();
+
+        // Add the session to the extensions
+        let mut session = tower_sessions::Session::new(None, Arc::new(tower_sessions::MemoryStore::default()), None);
+        session.insert("token", "test-token").await.unwrap();
+        session.save().await.unwrap();
+        test_request.extensions_mut().insert(session);
+
         let resp = app
-            .oneshot(
-                Request::builder()
-                    .uri("/authed")
-                    .body(Body::empty())
-                    .unwrap(),
-            )
+            .oneshot(test_request)
             .await
             .unwrap();
 
-        assert_eq!(resp.status(), StatusCode::BAD_REQUEST);
+        // Now we expect an error related to token validation, not from unwrapping None
+        assert_eq!(resp.status(), StatusCode::FORBIDDEN);
     }
 
     #[tokio::test]
     async fn guard_protects_if_non_bearer_present() {
         let app = app().await;
 
+        // Create a mock request with a session containing a token
+        let mut test_request = Request::builder()
+            .uri("/authed")
+            .header("Cookie", "session=test-session-id")
+            .body(Body::empty())
+            .unwrap();
+
+        // Add the session to the extensions
+        let mut session = tower_sessions::Session::new(None, Arc::new(tower_sessions::MemoryStore::default()), None);
+        session.insert("token", "Something").await.unwrap();
+        session.save().await.unwrap();
+        test_request.extensions_mut().insert(session);
+
+
         let resp = app
             .oneshot(
-                Request::builder()
-                    .uri("/authed")
-                    .header("authorization", "Basic Something")
-                    .body(Body::empty())
-                    .unwrap(),
+                test_request
             )
             .await
             .unwrap();
 
-        assert_eq!(resp.status(), StatusCode::BAD_REQUEST);
+        assert_eq!(resp.status(), StatusCode::FORBIDDEN);
     }
 
     #[tokio::test]
     async fn guard_protects_if_multiple_auth_headers_present() {
         let app = app().await;
 
+        // Create a mock request with a session containing a token
+        let mut test_request = Request::builder()
+            .uri("/authed")
+            .header("Cookie", "session=test-session-id")
+            .header("authorization", "something one")
+            .header("authorization", "something two")
+            .body(Body::empty())
+            .unwrap();
+
+        // Add the session to the extensions
+        let mut session = tower_sessions::Session::new(None, Arc::new(tower_sessions::MemoryStore::default()), None);
+        session.insert("token", "something").await.unwrap();
+        session.save().await.unwrap();
+        test_request.extensions_mut().insert(session);
+
+
         let resp = app
             .oneshot(
-                Request::builder()
-                    .uri("/authed")
-                    .header("authorization", "something one")
-                    .header("authorization", "something two")
-                    .body(Body::empty())
-                    .unwrap(),
+                test_request
             )
             .await
             .unwrap();
 
-        assert_eq!(resp.status(), StatusCode::BAD_REQUEST);
+        assert_eq!(resp.status(), StatusCode::FORBIDDEN);
     }
 
     #[tokio::test]
     async fn guard_protects_if_invalid_token() {
         let app = app().await;
 
+        // Create a mock request with a session containing a token
+        let mut test_request = Request::builder()
+            .uri("/authed")
+            .header("Cookie", "session=test-session-id")
+            .body(Body::empty())
+            .unwrap();
+
+        // Add the session to the extensions
+        let mut session = tower_sessions::Session::new(None, Arc::new(tower_sessions::MemoryStore::default()), None);
+        session.insert("token", "something").await.unwrap();
+        session.save().await.unwrap();
+        test_request.extensions_mut().insert(session);
+
         let resp = app
             .oneshot(
-                Request::builder()
-                    .uri("/authed")
-                    .header("authorization", "Bearer something")
-                    .body(Body::empty())
-                    .unwrap(),
+                test_request
             )
             .await
             .unwrap();
@@ -380,16 +419,26 @@ mod tests {
     async fn guard_allows_valid_token() {
         let app = app().await;
 
+        // Create a mock request with a session containing a token
+        let mut test_request = Request::builder()
+            .uri("/authed")
+            .header("Cookie", "session=test-session-id")
+            .body(Body::empty())
+            .unwrap();
+
+        // Add the session to the extensions
+        let mut session = tower_sessions::Session::new(None, Arc::new(tower_sessions::MemoryStore::default()), None);
+        session.insert("token", PERSONAL_ACCESS_TOKEN).await.unwrap();
+        session.save().await.unwrap();
+        test_request.extensions_mut().insert(session);
+
         let resp = app
             .oneshot(
-                Request::builder()
-                    .uri("/authed")
-                    .header("authorization", format!("Bearer {PERSONAL_ACCESS_TOKEN}"))
-                    .body(Body::empty())
-                    .unwrap(),
+                test_request
             )
             .await
             .unwrap();
+        
 
         assert_eq!(resp.status(), StatusCode::OK);
     }
@@ -438,13 +487,24 @@ mod tests {
             res.set_exp(Some(Utc::now().add(TimeDelta::days(1))));
             cache.set(PERSONAL_ACCESS_TOKEN, res).await;
 
+
+            // Create a mock request with a session containing a token
+            let mut test_request = Request::builder()
+                .uri("/authed")
+                .header("Cookie", "session=test-session-id")
+                .body(Body::empty())
+                .unwrap();
+
+            // Add the session to the extensions
+            let mut session = tower_sessions::Session::new(None, Arc::new(tower_sessions::MemoryStore::default()), None);
+            session.insert("token", PERSONAL_ACCESS_TOKEN).await.unwrap();
+            session.save().await.unwrap();
+            test_request.extensions_mut().insert(session);
+
+
             let response = app
                 .oneshot(
-                    Request::builder()
-                        .uri("/authed")
-                        .header("authorization", format!("Bearer {PERSONAL_ACCESS_TOKEN}"))
-                        .body(Body::empty())
-                        .unwrap(),
+                    test_request
                 )
                 .await
                 .unwrap();
@@ -467,13 +527,24 @@ mod tests {
             let cache = Arc::new(InMemoryIntrospectionCache::default());
             let app = app_witch_cache(cache.clone()).await;
 
+
+            // Create a mock request with a session containing a token
+            let mut test_request = Request::builder()
+                .uri("/authed")
+                .header("Cookie", "session=test-session-id")
+                .body(Body::empty())
+                .unwrap();
+
+            // Add the session to the extensions
+            let mut session = tower_sessions::Session::new(None, Arc::new(tower_sessions::MemoryStore::default()), None);
+            session.insert("token", PERSONAL_ACCESS_TOKEN).await.unwrap();
+            session.save().await.unwrap();
+            test_request.extensions_mut().insert(session);
+
+
             let response = app
                 .oneshot(
-                    Request::builder()
-                        .uri("/authed")
-                        .header("authorization", format!("Bearer {PERSONAL_ACCESS_TOKEN}"))
-                        .body(Body::empty())
-                        .unwrap(),
+                    test_request
                 )
                 .await
                 .unwrap();
