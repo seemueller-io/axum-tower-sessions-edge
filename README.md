@@ -187,6 +187,7 @@ This project is made possible thanks to:
 - **ZITADEL**: For providing the robust identity management platform that powers this authentication proxy
 - **Smartive**: For [zitadel-rs](https://github.com/smartive/zitadel-rust) 
 - **Cloudflare**: For their Workers platform and KV storage solution
+- **Fermyon Spin** https://github.com/fermyon/http-auth-middleware (Reference implementation)
 - **Open Source Community**: For the various dependencies and tools that make this project possible:
     - The Rust ecosystem and its crates
     - The Axum web framework
