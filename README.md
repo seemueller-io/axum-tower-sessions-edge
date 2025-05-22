@@ -1,4 +1,5 @@
-# zitadel-session-worker
+# axum-tower-sessions-proxy
+Formerly `zitadel-session-worker`
 
 > ⚠️ **WARNING**: This project is currently in development and **NOT** production-ready. Use at your own risk. It may
 > contain bugs, security vulnerabilities, or incomplete features. This should
