@@ -1,5 +1,53 @@
 # axum-tower-sessions-proxy
 Formerly `zitadel-session-worker`
+I hope this offers a likeminded individual time saved in the future. I have the original commit history. 
+
+## Development History
+Below is a curated list of key milestones in the development of this project, reflecting significant updates and features added over time (reverse-chronological)
+- Implement new session functionality - 5/9/25
+- Add error handlers for introspection - 5/9/25
+- Improve error handling for smoother operation - 5/8/25
+- Ensure compatibility with Safari - 5/8/25
+- Deploy latest changes - 5/8/25
+- Deploy updates - 5/8/25
+- Evaluate next steps for project direction - 5/6/25
+- Enable effective cache usage - 5/6/25
+- Update introspection handler to prioritize cache - 5/6/25
+- Revise session expiry and add proxy status API tests - 5/6/25
+- Confirm basic functionality of recent changes - 5/6/25
+- Resolve issues in cyberspace context - 5/5/25
+- Complete full login cycle - 5/5/25
+- Add Cloudflare introspection cache - 5/5/25
+- Implement minor updates - 5/3/25
+- Enhance Cloudflare session storage backend - 4/30/25
+- Fix Tower session extractor and refactor session creation - 4/30/25
+- Perform code cleanup - 4/30/25
+- Optimize for API application compatibility - 4/29/25
+- Establish basic session functionality - 4/29/25
+- Make progress on key features - 4/29/25
+- Experiment with redirect configurations - 4/29/25
+- Debug callback issues; session store functional in callback - 4/28/25
+- Continue work on callback implementation - 4/28/25
+- Complete proxy target compilation - 4/28/25
+- Reintroduce session middleware - 4/28/25
+- Remove sensitive secrets from codebase - 4/28/25
+- Implement dynamic incoming URL handling - 4/28/25
+- Correct KV storage naming - 4/27/25
+- Add callback functionality - 4/27/25
+- Introduce project structure improvements - 4/26/25
+- Address client returning 403 error - 4/26/25
+- Advance project development - 4/26/25
+- Clean up code and rename functions for clarity - 4/24/25
+- Integrate session manager and introspection features - 4/24/25
+- Add root path configuration - 2/2/25
+- Fetch provider metadata successfully - 2/2/25
+- Update type definition for introspected user - 2/1/25
+- Confirm application runs successfully - 2/1/25
+- Reintegrate test suite - 2/1/25
+- Achieve successful compilation - 2/1/25
+- Create random development checkpoint - 2/1/25
+- Initialize project repository - 2/1/25
+
 
 > ⚠️ **WARNING**: This project is currently in development and **NOT** production-ready. Use at your own risk. It may
 > contain bugs, security vulnerabilities, or incomplete features. This should
