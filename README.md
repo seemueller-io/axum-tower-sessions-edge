@@ -1,4 +1,4 @@
-# axum-tower-sessions-proxy
+# axum-tower-sessions-edge
 Formerly `zitadel-session-worker`
 
 > I hope this offers a likeminded individual time saved in the future. Original commit history availble by request.
