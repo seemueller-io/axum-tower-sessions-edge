@@ -1,7 +1,7 @@
 # axum-tower-sessions-edge
 Formerly `zitadel-session-worker`
 
-> I hope this offers a likeminded individual time saved in the future. Original commit history availble by request.
+> Original commit history availble by request.
 
 ## Development History
 Below is a curated list of key milestones in the development of this project, reflecting significant updates and features added over time (reverse-chronological)
