@@ -15,7 +15,7 @@ Below is a curated list of key milestones in the development of this project, re
 - Update introspection handler to prioritize cache - 5/6/25
 - Revise session expiry and add proxy status API tests - 5/6/25
 - Confirm basic functionality of recent changes - 5/6/25
-- Resolve issues in cyberspace context - 5/5/25
+- Resolve issues in _cyberspace_ context (placeholder for explicatives) - 5/5/25
 - Complete full login cycle - 5/5/25
 - Add Cloudflare introspection cache - 5/5/25
 - Implement minor updates - 5/3/25
