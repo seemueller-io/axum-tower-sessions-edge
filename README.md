@@ -2,19 +2,9 @@
 [![Rust](https://github.com/seemueller-io/axum-tower-sessions-edge/actions/workflows/test.yaml/badge.svg)](https://github.com/seemueller-io/axum-tower-sessions-edge/actions/workflows/test.yaml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
-Warning: This API may be unstable.
+> **Warning**: This API may be unstable.
 
-Validates incoming requests for defined routes and forwards traffic to the service defined as `PROXY_TARGET`.
-
-> Targets `wasm32-unknown-unknown`
-
-## Features
-- [OAuth 2.0](https://datatracker.ietf.org/doc/html/rfc6749) 
-- [Proof Key for Code Exchange (PKCE)](https://datatracker.ietf.org/doc/html/rfc7636)
-- [OAuth 2.0 Token Introspection](https://datatracker.ietf.org/doc/html/rfc7662)
-
-## Quickstart
-   ```bash
+```bash
 git clone https://github.com/seemueller-io/axum-tower-sessions-edge.git
 cd axum-tower-sessions-edge
 bun install
@@ -31,29 +21,6 @@ bun install
 npx wrangler dev 
 # Open `http://localhost:3000` in your browser. If everything is configured correctly, you should be taken to a Zitadel login page.
 ```
-
-### Extras
-
-Run your own Zitadel: `docker compose up -d`
-> You will need to configure:
-> - Organization 
-> - Project 
-> - Application - _Choose PKCE (with code)_
-
-
-### Building
-Sometimes the error messages are challenging to surface. Here are some alternative build commands that might help.  
-```bash
-# Default build
-npx wrangler build
-
-# Build command as defined in wrangler.jsonc
-cargo clean && cargo install -q worker-build && worker-build --release
-
-# Hacky but effective (targets the common runtime)
-cargo build --release --target wasm32-unknown-unknown
-```
-
 ## Acknowledgements
 
 This project is made possible thanks to:
