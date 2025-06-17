@@ -1,19 +1,17 @@
 # axum-tower-sessions-edge
+[![Rust](https://github.com/seemueller-io/axum-tower-sessions-edge/actions/workflows/test.yaml/badge.svg)](https://github.com/seemueller-io/axum-tower-sessions-edge/actions/workflows/test.yaml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
-> OAuth 2.0 Proxy built with Axum and Tower. Targets `wasm32-unknown-unknown`
+Warning: This API may be unstable.
 
-Proxies incoming requests for defined routes and forwards traffic to the service defined as `PROXY_TARGET`. 
-Configuration is modified by changing `.dev.vars`, `wrangler.jsonc`, or `secrets.json`. It's not perfect yet, but it's powerful.
+Validates incoming requests for defined routes and forwards traffic to the service defined as `PROXY_TARGET`.
+
+> Targets `wasm32-unknown-unknown`
 
 ## Features
 - [OAuth 2.0](https://datatracker.ietf.org/doc/html/rfc6749) 
 - [Proof Key for Code Exchange (PKCE)](https://datatracker.ietf.org/doc/html/rfc7636)
 - [OAuth 2.0 Token Introspection](https://datatracker.ietf.org/doc/html/rfc7662)
-
-## Todo
-- Proof compliance
-- Expand configuration interface
-- Zero-config development environment
 
 ## Quickstart
    ```bash
@@ -27,7 +25,6 @@ bun install
 #ZITADEL_ORG_ID="your-organization-id"
 #ZITADEL_PROJECT_ID="your-project-id"
 #APP_URL="http://localhost:3000"
-#DEV_MODE="true"
 
 # Update the wrangler.jsonc and replace the value of PROXY_TARGET with a worker script name. 
 
@@ -41,7 +38,7 @@ Run your own Zitadel: `docker compose up -d`
 > You will need to configure:
 > - Organization 
 > - Project 
-> - Application. _Choose PKCE (with code)_
+> - Application - _Choose PKCE (with code)_
 
 
 ### Building
@@ -56,16 +53,6 @@ cargo clean && cargo install -q worker-build && worker-build --release
 # Hacky but effective (targets the common runtime)
 cargo build --release --target wasm32-unknown-unknown
 ```
-
-## Project Structure
-- `src/` - Rust source code
-  - `api/` - API endpoints and routing
-  - `axum_introspector/` - Axum framework integration for token introspection
-  - `credentials/` - Credential management
-  - `oidc/` - OpenID Connect implementation
-  - `session_storage/` - Session storage implementations
-  - `utilities.rs` - Common utility functions
-  - `lib.rs` - Server
 
 ## Acknowledgements
 
